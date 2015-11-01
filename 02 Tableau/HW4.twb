@@ -199,14 +199,14 @@
       </semantic-values>
     </datasource>
     <datasource caption='NYCAUSEOFDEATH (CS329E_CDT932)' inline='true' name='oracle.42304.875065081000' version='9.0'>
-      <connection authentication='RDBMS' class='oracle' port='1521' schema='CS329E_CDT932' server='129.152.144.84' service='PDBF15DV.usuniversi01134.oraclecloud.internal' username='cs329e_cdt932'>
-        <relation name='NYCAUSEOFDEATH' table='[CS329E_CDT932].[NYCAUSEOFDEATH]' type='table' />
+      <connection authentication='RDBMS' class='oracle' port='1521' schema='C##CS329E_CDT932' server='sayonara.microlab.cs.utexas.edu' service='orcl' username='C##cs329e_cdt932'>
+        <relation name='NYC_DEATHS' table='[C##CS329E_CDT932].[NYC_DEATHS]' type='table' />
         <metadata-records>
           <metadata-record class='column'>
             <remote-name>ETHNICITY</remote-name>
             <remote-type>129</remote-type>
             <local-name>[ETHNICITY]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>ETHNICITY</remote-alias>
             <ordinal>2</ordinal>
             <local-type>string</local-type>
@@ -217,14 +217,14 @@
             <padded-semantics>true</padded-semantics>
             <collation charset='1' flag='0' name='binary' />
             <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=873,charform=1}&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=178,charform=1}&quot;</attribute>
             </attributes>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>SEX</remote-name>
             <remote-type>129</remote-type>
             <local-name>[SEX]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>SEX</remote-alias>
             <ordinal>3</ordinal>
             <local-type>string</local-type>
@@ -235,14 +235,14 @@
             <padded-semantics>true</padded-semantics>
             <collation charset='1' flag='0' name='binary' />
             <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=873,charform=1}&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=178,charform=1}&quot;</attribute>
             </attributes>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>CAUSE_OF_DEATH</remote-name>
             <remote-type>129</remote-type>
             <local-name>[CAUSE_OF_DEATH]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>CAUSE_OF_DEATH</remote-alias>
             <ordinal>4</ordinal>
             <local-type>string</local-type>
@@ -253,14 +253,14 @@
             <padded-semantics>true</padded-semantics>
             <collation charset='1' flag='0' name='binary' />
             <attributes>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=873,charform=1}&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;SQLT_CHR{charset=178,charform=1}&quot;</attribute>
             </attributes>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>YEAR</remote-name>
             <remote-type>131</remote-type>
             <local-name>[YEAR]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>YEAR</remote-alias>
             <ordinal>5</ordinal>
             <local-type>real</local-type>
@@ -276,7 +276,7 @@
             <remote-name>COUNT</remote-name>
             <remote-type>131</remote-type>
             <local-name>[COUNT]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>COUNT</remote-alias>
             <ordinal>6</ordinal>
             <local-type>real</local-type>
@@ -292,7 +292,7 @@
             <remote-name>PERCENT</remote-name>
             <remote-type>131</remote-type>
             <local-name>[PERCENT]</local-name>
-            <parent-name>[NYCAUSEOFDEATH]</parent-name>
+            <parent-name>[NYC_DEATHS]</parent-name>
             <remote-alias>PERCENT</remote-alias>
             <ordinal>7</ordinal>
             <local-type>real</local-type>
