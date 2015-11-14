@@ -1,5 +1,5 @@
 ---
-title: "Project 3 Doc"
+title: "Tableau Project 2"
 output: html_document
 ---
 
@@ -7,7 +7,11 @@ output: html_document
 
 
 
-# Project 3 Documentation
+# Tableau Project 2 Documentation
+
+Note that this html file contains the combined "story" for Projects 4  and 5. The Tableau
+plots in the "Data" section are from project 4, while all the R plots, as well as the 
+"Blended" plots are from Project 5.
 
 ## Extract, Transform, and load:
 
@@ -91,10 +95,62 @@ We created a bar-chart to display some of the more prominent causees of death.
 
 ![Death counts in NYC by cause](./Bar\ Chart.jpg)
 
+Here's the equivalent chart created using R:
+
+```r
+source("../03\ R\ SQL Visualizations/barchart.R",echo=TRUE)
+```
+
+```
+## 
+## > #df <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="select * from NYC_DEATHS"'),httpheader=c(DB='jdbc:oracle .... [TRUNCATED] 
+## 
+## > levels(dff$CAUSE_OF_DEATH) <- gsub(" ", "\n",levels(df$CAUSE_OF_DEATH))
+## 
+## > levels(dff$CAUSE_OF_DEATH) <- gsub("IMMUNODEFICIENCY", "IMMUNO-\nDEFICIENCY",levels(dff$CAUSE_OF_DEATH))
+## 
+## > medcount = median(dff$sumcount)
+## 
+## > ggplot(dff, aes(x=(CAUSE_OF_DEATH),y=sumcount))+
+## +   geom_bar(stat="identity")+
+## +   geom_hline(yintercept=as.numeric(medcount), color="red") +
+## + lab .... [TRUNCATED]
+```
+
+![plot of chunk qplot0](figure/qplot0-1.png) 
+
+
 We also created a crosstab of death-counts, grouping by ethnicity and cause. We also
 created a KPI to indicate tabs with deaths over 5000
 
 ![Death Count Crosstab and KPI](./Crosstab.jpg)
+
+Here's the equivalent crosstab created using R. The KPI was calculated using an R
+function, and the following workflow was used to handle the grouping and summarising:
+```
+dff <-  group_by(df,CAUSE_OF_DEATH,ETHNICITY) %>% summarise(sumcount=sum(COUNT)) %>% ungroup() %>% rowwise() %>% mutate(Death_KPI=kpi_func(sumcount)) %>% group_by(CAUSE_OF_DEATH,ETHNICITY)
+```
+
+```r
+source("../03\ R\ SQL Visualizations/crosstab.R",echo=TRUE)
+```
+
+```
+## 
+## > #df <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="select * from nyc_deaths"'),httpheader=c(DB='jdbc:oracle .... [TRUNCATED] 
+## 
+## > dff <-  group_by(df,CAUSE_OF_DEATH,ETHNICITY) %>% summarise(sumcount=sum(COUNT)) %>% ungroup() %>% rowwise() %>% mutate(Death_KPI=kpi_func(sumcount) .... [TRUNCATED] 
+## 
+## > dff$CAUSE_OF_DEATH = with(dff,factor(CAUSE_OF_DEATH, levels = rev(levels(CAUSE_OF_DEATH))))
+## 
+## > ggplot(dff, aes(ETHNICITY,CAUSE_OF_DEATH,color=Death_KPI)) + 
+## + theme_bw() + xlab("") + ylab("") +
+## + scale_size_continuous(range=c(10,30)) + 
+## + geom .... [TRUNCATED]
+```
+
+![plot of chunk qplot1](figure/qplot1-1.png) 
+
 
 Then we created a scatterplot of the various causes of death over the years, colored by
 ethnicity. This particular visualization would probably be better served by means other
@@ -103,4 +159,61 @@ with regards to scatterplots.
 
 ![Death Count by year](./Scatterplot.jpg)
 
+Here's the equivalent plot in R:
+
+
+```r
+source("../03\ R\ SQL Visualizations/scatterplot.R",echo=TRUE)
+```
+
+```
+## 
+## > #df <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="select * from NYC_DEATHS"'),httpheader=c(DB='jdbc:oracle .... [TRUNCATED]
+```
+
+![plot of chunk qplot2](figure/qplot2-1.png) 
+## Blending
+
+It is through unfortunate luck that we are stuck working with the same dataset 
+for two projects in a row. The data was unpleasant to work with for the TProject 1 plots,
+but was even worse when it came time to find data to blend with it. Furthermore,
+we recently discovered that the reason for some of the oddly large death counts is due
+to the fact that the data contains duplicate rows! We hope you can overlook, to some degree,
+the odd death tolls due to the bad dataset.
+
+We found a dataset containing homeless
+populations for various regions of NYC by year. Unfortunately, due to the fact that
+the two datasets share only "year" in common, and that they share only 3 years in
+common at that, joining ultimately condenses everything down into a pitiful 3 column x
+3 row blended dataset. Ultimately this can only yield one, not particularly enlightening, plot.
+In Tableau:
+![Death Count vs Homeless Population](./Blended.jpg)
+Blending in R was done by grouping each dataset by year, and then summarising the rows by summing over the relevant columns (homeless estimates and death count):
+```
+dgg <- group_by(dg,YEAR) %>% summarise(EST=sum(HOMELESSESTIMATES))
+dfj <- group_by(df,YEAR) %>% summarise(COUNT=sum(COUNT)) %>% inner_join(dgg,by="YEAR")
+```
+
+```r
+source("../03\ R\ SQL Visualizations/blended.R",echo=TRUE)
+```
+
+```
+## 
+## > #df <- data.frame(fromJSON(getURL(URLencode('skipper.cs.utexas.edu:5001/rest/native/?query="select * from NYC_DEATHS"'),httpheader=c(DB='jdbc:oracle .... [TRUNCATED] 
+## 
+## > dfj <- group_by(df,YEAR) %>% summarise(COUNT=sum(COUNT)) %>% inner_join(dgg,by="YEAR")
+## 
+## > ggplot() +
+## +   coord_cartesian() + 
+## +   scale_x_continuous() +
+## +   scale_y_continuous() +
+## +   labs(title="NYC Death Count vs Homeless Population in  ..." ... [TRUNCATED]
+```
+
+![plot of chunk qplot3](figure/qplot3-1.png) 
+
+We realize that this is rather lackluster, and hope you are willing to give us some credit
+for at least blending the data appropriately. We will make sure to select better data
+for the next project
 
